@@ -6,6 +6,10 @@
     let eltH1 = document.getElementsByClassName("text-white");
     let eltLink = document.getElementsByClassName("link");
     let viewportWidth = $(window).width();
+    for (let i = 0; i < eltVideo.length; i++) {
+        let currentVideo = eltVideo[i];
+        currentVideo.volume = 0;
+    }
     if (viewportWidth < 768 && viewportWidth > 576) {
         eltLink[2].classList.remove("d-none");
     } else {
@@ -91,6 +95,7 @@
         function playVideo(videoContainer, video) {
             videoContainer.hidden = false;
             video.load();
+            video.volume = 0.1;
         }
 
         function stopVideo(videoContainer, video) {

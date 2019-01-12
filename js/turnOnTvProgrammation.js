@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
             videoText.hidden = true;
             videoContainer.hidden = false;
             video.load();
+            video.volume = 0.1;
             infosHidden(eltInfos[currentIndex], true);
         } else {
             video.pause();

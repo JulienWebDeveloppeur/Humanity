@@ -177,3 +177,9 @@ border-radius: 0;}
 .w-25 {
 	width: 30% !important;
 }
+.error-container {
+	padding: 5px;
+}
+.code {
+	height: 25vh;
+}

@@ -8,6 +8,14 @@ h3{
 	font-size: 22px;	
 }
 }
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) { 
+.w-25 {
+	display: none !important;
+}
+.mobile-h25 {
+	height: 100% !important;
+}
+}
 @media (max-width: 768px) { 
 .text-random-color {
 	font-size: inherit;

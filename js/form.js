@@ -27,6 +27,10 @@ function displayForm(action) {
         eltRobotOrHuman.classList.remove("d-none");
         eltFormHuman.classList.add("d-none");
         eltFormRobot.classList.add("d-none");
+        for (let i = 0; i < eltMapContainer.length; i++) {
+            eltMapContainer[i].hidden = false;
+            eltErrorContainer[i].classList.add("d-none")
+        }
     }
 }
 // Regex for mail
@@ -55,6 +59,13 @@ eltHumanCheck.checked = false;
 eltInputMail.value = "";
 eltInputName.value = "";
 eltInputSurname.value = "";
+let etlInputId = document.getElementById("id");
+let etlInputSerieNbr = document.getElementById("serieNbr");
+let etlInputVersion = document.getElementById("version");
+eltRobotCheck.checked = false;
+etlInputId.value = "";
+etlInputSerieNbr.value = "";
+etlInputVersion.value = "";
 let eltHumanVerified = document.getElementById("human-verified");
 let eltRobotVerified = document.getElementById("robot-verified");
 let eltMapContainer = document.getElementsByClassName("map-container");
@@ -63,14 +74,69 @@ let eltErrorMessage = document.getElementsByClassName("error-message");
 eltRobotCheck.addEventListener("click", function(e) {
     securityFormRobot();
 }, false)
-eltHumanCheck.addEventListener("click", function(e) {
-    securityFormHuman();
+etlInputId.addEventListener("input", function(e) {
+    securityFormRobot()
+}, false)
+etlInputSerieNbr.addEventListener("input", function(e) {
+    securityFormRobot()
+}, false)
+etlInputVersion.addEventListener("input", function(e) {
+    securityFormRobot()
 }, false)
 
 function securityFormRobot() {
-    eltFormRobot.classList.add("d-none");
-    eltRobotVerified.classList.remove("d-none");
+    let idValue = etlInputId.value;
+    let serieNbrValue = etlInputSerieNbr.value;
+    let versionValue = etlInputVersion.value;
+    if (idValue && serieNbrValue && versionValue !== "") {
+        if (eltRobotCheck.checked === true) {
+            eltFormRobot.classList.add("d-none");
+            eltRobotVerified.classList.remove("d-none");
+        }
+        errorMessageRobot(false)
+    } else {
+        eltRobotCheck.checked = false;
+        for (let i = 0; i < eltMapContainer.length; i++) {
+            eltMapContainer[i].hidden = true;
+            eltErrorContainer[i].classList.remove("d-none")
+            eltErrorMessage[i].textContent = errorMessageRobot(true)
+        }
+    }
 }
+function errorMessageRobot(booleen) {
+    if (booleen === true) {
+    let idValue = etlInputId.value;
+    let serieNbrValue = etlInputSerieNbr.value;
+    let versionValue = etlInputVersion.value;
+    if (idValue && serieNbrValue && versionValue !== "")  {
+            message = "Veuillez renseigner les champs";
+            return message;
+        } else if (idValue === "") {
+            message = "Veuillez renseigner un Id";
+            return message;
+        } else if (serieNbrValue === "") {
+            message = "Veuillez renseigner un Numéro de série";
+            return message;
+        } else if (versionValue === "") {
+            message = "Veuillez renseigner un Numéro de version";
+            return message;
+        } /*else {
+            for (let i = 0; i < eltMapContainer.length; i++) {
+                eltMapContainer[i].hidden = true;
+                eltErrorContainer[i].classList.remove("d-none")
+                eltErrorMessage[i].textContent = errorMessage()
+            }
+        }*/
+    } else {
+        for (let i = 0; i < eltMapContainer.length; i++) {
+            eltMapContainer[i].hidden = false;
+            eltErrorContainer[i].classList.add("d-none")
+        }
+    }
+}
+eltHumanCheck.addEventListener("click", function(e) {
+    securityFormHuman();
+}, false)
 eltInputMail.addEventListener("input", function(e) {
     securityFormHuman()
 }, false)
@@ -82,53 +148,53 @@ eltInputSurname.addEventListener("input", function(e) {
 }, false)
 
 function securityFormHuman() {
-    let mail = eltInputMail.value;
-    let name = eltInputName.value;
-    let surname = eltInputSurname.value;
-    if ((mail && name && surname !== "") && (validate() === true)) {
+    let mailValue = eltInputMail.value;
+    let nameValue = eltInputName.value;
+    let surnameValue = eltInputSurname.value;
+    if ((mailValue && nameValue && surnameValue !== "") && (validate() === true)) {
         if (eltHumanCheck.checked === true) {
             eltFormHuman.classList.add("d-none");
             eltHumanVerified.classList.remove("d-none");
         }
-        errorMessage(false)
+        errorMessageHuman(false)
     } else {
         eltHumanCheck.checked = false;
         for (let i = 0; i < eltMapContainer.length; i++) {
             eltMapContainer[i].hidden = true;
             eltErrorContainer[i].classList.remove("d-none")
-            eltErrorMessage[i].textContent = errorMessage(true)
+            eltErrorMessage[i].textContent = errorMessageHuman(true)
         }
     }
 }
 
-function errorMessage(booleen) {
+function errorMessageHuman(booleen) {
     if (booleen === true) {
-        let mail = eltInputMail.value;
-        let name = eltInputName.value;
-        let surname = eltInputSurname.value;
+        let mailValue = eltInputMail.value;
+        let nameValue = eltInputName.value;
+        let surnameValue = eltInputSurname.value;
         let message;
-        if (mail && name && surname === "") {
+        if (mailValue && nameValue && surnameValue === "") {
             message = "Veuillez renseigner les champs";
             return message;
-        } else if (mail === "") {
+        } else if (mailValue === "") {
             message = "Veuillez renseigner un Mail";
             return message;
         } else if (validate() === false) {
             message = "Veuillez renseigner un Mail Valide";
             return message;
-        } else if (name === "") {
+        } else if (nameValue === "") {
             message = "Veuillez renseigner le champ Nom";
             return message;
-        } else if (surname === "") {
+        } else if (surnameValue === "") {
             message = "Veuillez renseigner le champ Surnom";
             return message;
-        } else {
+        } /*else {
             for (let i = 0; i < eltMapContainer.length; i++) {
                 eltMapContainer[i].hidden = true;
                 eltErrorContainer[i].classList.remove("d-none")
                 eltErrorMessage[i].textContent = errorMessage()
             }
-        }
+        }*/
     } else {
         for (let i = 0; i < eltMapContainer.length; i++) {
             eltMapContainer[i].hidden = false;
